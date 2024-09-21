@@ -1,0 +1,44 @@
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px;
+    .com-logo{
+        width: 150px;
+    }
+    .profile{
+        display: flex;
+        align-items: center;
+        img{
+            border-radius: 10px;
+            width: 50px;
+            height: 50px !important;
+            margin-left: 20px;
+        }
+        p,h4{
+            margin: 5px;
+            text-align: end;
+        }
+        p{
+            color: grey;
+            font-size: 13px;
+        }
+        
+    }
+}
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    .navbar{
+        padding: 10px 20px;
+        .com-logo{
+            width: 120px;
+        }
+        .profile{
+            p,h4{
+                display: none;
+            }
+            
+        }
+    }
+}

@@ -1,0 +1,67 @@
+/* login.css */
+.centered{
+    width: 100vw;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 1s ease-in;
+}
+.heading{
+    margin: -20px 0 0;
+    color: #0087e7;
+    font-size: 40px;
+}
+.login_logo{
+    img{
+        width: 400px;
+    }
+}
+/* Splash screen styles */
+.splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: white; /* White background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999; /* Ensure it's on top of other content */
+}
+
+.splash-logo {
+    max-width: 400px !important; /* Ensure the logo is responsive */
+    height: auto;
+}
+
+
+/* Animations */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+ 
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    .centered {
+        flex-direction: column; /* Change to column on smaller screens */
+    }
+    .heading{
+        font-size: 30px;
+    }
+    .login_logo{
+        img{
+            width: 270px;
+        }
+    }
+    .splash-logo {
+        max-width: 70%;
+    }
+}
