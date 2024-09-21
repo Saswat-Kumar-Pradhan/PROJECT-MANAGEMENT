@@ -1,4 +1,4 @@
-.project{
+.projects{
     display: flex;
     justify-content: space-between;
     padding: 20px 50px;
@@ -70,6 +70,8 @@
             width: 100%;
             tbody tr{
                 height: 50px;
+                font-weight: bold;
+                color: rgb(83, 83, 83);
             }
             tbody tr td:nth-child(2){
                 width: 300px;
@@ -81,6 +83,7 @@
             tbody tr td:nth-child(3){
                 width: 60px;
                 text-align: right;
+                color: black;
             }
         }
         .css-7o8aqz-MuiSlider-rail{
@@ -93,6 +96,48 @@
         }
         .css-cp2j25-MuiSlider-thumb{
             width: 0px;
+        }
+    }
+}
+a{
+    text-decoration: none;
+}
+.center{
+    display: flex;
+    justify-content: center;
+}
+.modalstyle{
+    border-radius: 20px;
+    h4{
+        margin: 15px 0 6px;
+    }
+    .cntr2{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        h5{
+            margin: 0;
+            margin-left: 20px;
+        }
+    }
+    .box{
+        width: 300px;
+        border-radius: 10px;
+        display: flex;
+        margin-bottom: 20px;
+        align-items: center;
+        padding: 0;
+        color: rgb(0, 0, 0);
+        img{
+            width: 20%;
+            margin: auto 10px auto 20px;
+        }
+        p, h3{
+            margin: 5px;
+        }
+        p{
+            color: rgba(0, 0, 0, 0.603);
+            font-size: 15px;
         }
     }
 }
