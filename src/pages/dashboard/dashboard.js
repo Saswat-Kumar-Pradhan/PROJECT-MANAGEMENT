@@ -41,6 +41,23 @@ const projectData = [
         name: "Kalinga Premium",
         img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqpCJwUG6ipFrTN4WFt4RQIJ0qnks0--4MDA&s",
         contributors: []
+    },
+    {
+        name: "Kalinga Premium",
+        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqpCJwUG6ipFrTN4WFt4RQIJ0qnks0--4MDA&s",
+        contributors: []
+    },
+
+    {
+        name: "Kalinga Premium",
+        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqpCJwUG6ipFrTN4WFt4RQIJ0qnks0--4MDA&s",
+        contributors: []
+    },
+
+    {
+        name: "Kalinga Premium",
+        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqpCJwUG6ipFrTN4WFt4RQIJ0qnks0--4MDA&s",
+        contributors: []
     }
 ];
 
