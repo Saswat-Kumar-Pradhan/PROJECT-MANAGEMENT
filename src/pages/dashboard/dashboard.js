@@ -8,6 +8,12 @@ import IconButton from '@mui/material/IconButton';
 import './dashboard.css'
 import { Button } from '@mui/material';
 
+// mui icons
+
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+
 const projectData = [
     {
         name: "Alphatach Gateway",
@@ -72,6 +78,11 @@ const Dashboard = () => {
         <div className="dashboard">
             <ThemeProvider theme={darkTheme}>
                 {/* <CssBaseline /> */}
+                <div className='dashboard-btns'>
+                    <Button className='addProject'><LibraryAddIcon sx={{marginRight: "10px"}} /> Add Project</Button>
+                    <Button className='addProject'><PersonAddAlt1Icon sx={{marginRight: "10px"}} /> Add Employe</Button>
+                    <Button className='addProject'><PeopleAltIcon sx={{marginRight: "10px"}} /> All Employee</Button>
+                </div>
                 <div className="project_container">
                     {projectData.map((project, index) => (
                         <div className="project" key={index}>
@@ -85,8 +96,38 @@ const Dashboard = () => {
                                 <div>
                                     <AvatarGroup max={4}
                                         sx={{
-                                            "& .MuiAvatar-root": { width: 30, height: 30 }, /* Regular Avatars */
-                                            "& .MuiAvatarGroup-avatar": { width: 30, height: 30 } /* Overflow Avatar */
+                                            "& .MuiAvatar-root": { width: 30, height: 30 },
+                                            "& .MuiAvatarGroup-avatar": { width: 30, height: 30 }
+                                        }}>
+                                        {project.contributors.map((contributor, i) => (
+                                            <Avatar alt={contributor.name} src={contributor.img} />
+                                        ))}
+                                    </AvatarGroup>
+                                </div>
+                                <IconButton style={{ color: "rgba(255, 255, 255, 0.363)" }}>
+                                    <OpenInNewIcon titleAccess='Go to Hosted Application' />
+                                </IconButton>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                <br /><br /><br /><br />
+                <h1 className='dashboard-heading'>Completed Projects</h1>
+                <div className="project_container">
+                    {projectData.map((project, index) => (
+                        <div className="project" key={index}>
+                            <div className='project_name'>
+                                <img src={project.img} alt={project.name} />
+                                <div>
+                                    <h3>{project.name}</h3>
+                                </div>
+                            </div>
+                            <div className='project_details'>
+                                <div>
+                                    <AvatarGroup max={4}
+                                        sx={{
+                                            "& .MuiAvatar-root": { width: 30, height: 30 },
+                                            "& .MuiAvatarGroup-avatar": { width: 30, height: 30 }
                                         }}>
                                         {project.contributors.map((contributor, i) => (
                                             <Avatar alt={contributor.name} src={contributor.img} />
@@ -101,6 +142,7 @@ const Dashboard = () => {
                     ))}
                 </div>
             </ThemeProvider>
+            <br /><br /><br /><br /><br />
         </div>
     );
 };

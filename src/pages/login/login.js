@@ -3,21 +3,16 @@ import { TextField, Button, Box, Typography, Container, Alert } from '@mui/mater
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import logo from '../../assets/images/hypernextlogo.png';
 import './login.css';
+import { loginUser } from './loginApi'; // Import loginUser from the API utility
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [showSplash, setShowSplash] = useState(true); // Splash screen state
+    const [loading, setLoading] = useState(false); // Loading state for button
 
     const navigate = useNavigate(); // Hook for navigation
-
-    // Array of users
-    const users = [
-        { email: 'saswatkumar059@gmail.com', password: '1234', name: 'Saswat Kumar Pradhan', role: 'admin' },
-        { email: 'user2@example.com', password: 'password456', name: 'Jane Smith', role: 'user' },
-        { email: 'user3@example.com', password: 'password789', name: 'Alice Johnson', role: 'editor' },
-    ];
 
     // Hide splash screen after 2 seconds
     useEffect(() => {
@@ -37,7 +32,7 @@ function Login() {
         setPassword(e.target.value);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Basic validation
@@ -46,22 +41,31 @@ function Login() {
             return;
         }
 
-        // Reset error
+        // Reset error and start loading
         setError('');
+        setLoading(true);
 
-        // Find user in the array
-        const user = users.find((u) => u.email === email && u.password === password);
+        try {
+            // Call the login API function from api.js
+            const data = await loginUser(email, password);
 
-        if (user) {
+            // Assuming the API response contains a token or user data
             const userInfo = {
                 isLoggedIn: true,
-                email: user.email,
-                role: user.role,
+                email: data.email,
+                role: data.role,
+                token: data.access, // Save token for authentication
             };
+
+            // Store the user data in localStorage
             localStorage.setItem('userInfo', JSON.stringify(userInfo));
-            navigate('/'); // Redirect to home
-        } else {
-            setError('Invalid email or password');
+
+            // Navigate to the home page or dashboard
+            navigate('/');
+        } catch (error) {
+            setError(error.message || 'Failed to log in.');
+        } finally {
+            setLoading(false); // Stop loading spinner
         }
     };
 
@@ -123,8 +127,9 @@ function Login() {
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2, backgroundColor: '#00ac5a', '&:hover': { backgroundColor: 'darkgreen' } }}
+                            disabled={loading} // Disable button during loading
                         >
-                            Login
+                            {loading ? 'Logging in...' : 'Login'}
                         </Button>
                     </Box>
                 </Box>

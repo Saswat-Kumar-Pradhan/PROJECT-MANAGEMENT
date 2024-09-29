@@ -6,7 +6,7 @@ import Project from './pages/project/project';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 
 function App() {
-  const isAdmin = JSON.parse(localStorage.getItem('userInfo'))?.role === 'admin';
+  const isAdmin = JSON.parse(localStorage.getItem('userInfo'))?.role === 'Admin';
 
   return (
     <Router>
