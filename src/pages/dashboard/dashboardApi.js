@@ -1,11 +1,12 @@
 import { BASE_URL } from '../../Config';
 
-export const createProject = async (token, projectData) => {
+export const createProject = async (projectData) => {
+    const token = JSON.parse(localStorage.getItem('userInfo'))?.token;
     const response = await fetch(`${BASE_URL}create_project/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`, // Include the token in the header
+            'Authorization': token, // Include the token in the header
         },
         body: JSON.stringify(projectData), // Send the project data as JSON
     });

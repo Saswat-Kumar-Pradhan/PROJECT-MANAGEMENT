@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { createProject } from './dashboardApi';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
@@ -74,10 +75,34 @@ const darkTheme = createTheme({
 });
 
 const Dashboard = () => {
+    // for project
     const [openProjectDialog, setOpenProjectDialog] = useState(false);
+    const [projectName, setProjectName] = useState('');
+    const [description, setDescription] = useState('');
+    const [gitUsername, setGitUsername] = useState('saswatkumar');
+    const [gitPassword, setGitPassword] = useState('et536tytet63t');
+    // for Employee
     const [openEmployeeDialog, setOpenEmployeeDialog] = useState(false);
     const [file, setFile] = useState(null);
     const [preview, setPreview] = useState(null);
+
+    const handleSubmit = async () => {
+        const projectData = {
+            name: projectName,
+            description: description,
+            gitUsername: gitUsername,
+            gitPassword: gitPassword,
+            image: file,
+        };
+
+        try {
+            const response = await createProject(projectData); // Call the API function
+            console.log('Project created successfully:', response);
+            handleProjectDialogClose(); // Close the dialog on success
+        } catch (error) {
+            console.error('Error creating project:', error.message);
+        }
+    };
 
     const handleProjectDialogOpen = () => {
         setOpenProjectDialog(true);
@@ -189,96 +214,110 @@ const Dashboard = () => {
             <br /><br /><br /><br /><br />
             {/* Dialog for adding project */}
             <Dialog open={openProjectDialog} onClose={handleProjectDialogClose} fullWidth>
-                <DialogTitle sx={{ display: 'flex', justifyContent: 'center', fontWeight: 'bold' }}>Add Project</DialogTitle>
-                <DialogContent>
+            <DialogTitle sx={{ display: 'flex', justifyContent: 'center', fontWeight: 'bold' }}>Add Project</DialogTitle>
+            <DialogContent>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: { xs: 'column', md: 'row' }, // Column for mobile, row for desktop
+                        gap: '16px',
+                        marginTop: '16px'
+                    }}
+                >
+                    {/* Drag and Drop Image Field */}
                     <Box
-                        sx={{
-                            display: 'flex',
-                            flexDirection: { xs: 'column', md: 'row' }, // Column for mobile, row for desktop
-                            gap: '16px',
-                            marginTop: '16px'
-                        }}
+                        sx={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}
+                        onDrop={handleDrop}
+                        onDragOver={handleDragOver}
                     >
-                        {/* Drag and Drop Image Field */}
-                        <Box
-                            sx={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}
-                            onDrop={handleDrop}
-                            onDragOver={handleDragOver}
+                        <div
+                            style={{
+                                border: '2px dashed #ccc',
+                                padding: '20px',
+                                aspectRatio: '1',
+                                textAlign: 'center',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                position: 'relative',
+                                width: '228px'
+                            }}
                         >
-                            <div
+                            <input
+                                type="file"
+                                accept="image/*"
                                 style={{
-                                    border: '2px dashed #ccc',
-                                    padding: '20px',
-                                    aspectRatio: '1',
-                                    textAlign: 'center',
-                                    cursor: 'pointer',
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    position: 'relative',
-                                    width: '228px'
+                                    opacity: 0,
+                                    position: 'absolute',
+                                    width: '100%',
+                                    height: '100%',
+                                    cursor: 'pointer'
                                 }}
-                            >
-                                <input
-                                    type="file"
-                                    accept="image/*"
+                                onChange={handleFileChange}
+                            />
+                            {preview ? (
+                                <img
+                                    src={preview}
+                                    alt="Preview"
                                     style={{
-                                        opacity: 0,
-                                        position: 'absolute',
                                         width: '100%',
                                         height: '100%',
-                                        cursor: 'pointer'
+                                        objectFit: 'contain'
                                     }}
-                                    onChange={handleFileChange}
                                 />
-                                {preview ? (
-                                    <img
-                                        src={preview}
-                                        alt="Preview"
-                                        style={{
-                                            width: '100%',
-                                            height: '100%',
-                                            objectFit: 'contain'
-                                        }}
-                                    />
-                                ) : (
-                                    <span>Drag & Drop Image Here or Click to Upload</span>
-                                )}
-                            </div>
-                        </Box>
-
-                        {/* Project Details Fields */}
-                        <Box sx={{ flex: 2, display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                            <TextField label="Project Name" fullWidth />
-                            <TextField label="Description" fullWidth />
-
-                            {/* Git Username Dropdown */}
-                            <TextField
-                                select
-                                label="Git Username"
-                                defaultValue="saswatkumar"
-                                fullWidth
-                            >
-                                <MenuItem value="saswatkumar">saswatkumar</MenuItem>
-                                {/* Add more options if needed */}
-                            </TextField>
-
-                            {/* Git Password Dropdown */}
-                            <TextField
-                                select
-                                label="Git Password"
-                                defaultValue="et536tytet63t"
-                                fullWidth
-                            >
-                                <MenuItem value="et536tytet63t">et536tytet63t</MenuItem>
-                                {/* Add more options if needed */}
-                            </TextField>
-                        </Box>
+                            ) : (
+                                <span>Drag & Drop Image Here or Click to Upload</span>
+                            )}
+                        </div>
                     </Box>
-                    <br />
-                    <div className='center'><Button variant="contained" color="success">Create</Button></div>
-                </DialogContent>
-            </Dialog>
+
+                    {/* Project Details Fields */}
+                    <Box sx={{ flex: 2, display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                        <TextField
+                            label="Project Name"
+                            fullWidth
+                            value={projectName}
+                            onChange={(e) => setProjectName(e.target.value)}
+                        />
+                        <TextField
+                            label="Description"
+                            fullWidth
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                        />
+
+                        {/* Git Username Dropdown */}
+                        <TextField
+                            select
+                            label="Git Username"
+                            value={gitUsername}
+                            onChange={(e) => setGitUsername(e.target.value)}
+                            fullWidth
+                        >
+                            <MenuItem value="saswatkumar">saswatkumar</MenuItem>
+                            {/* Add more options if needed */}
+                        </TextField>
+
+                        {/* Git Password Dropdown */}
+                        <TextField
+                            select
+                            label="Git Password"
+                            value={gitPassword}
+                            onChange={(e) => setGitPassword(e.target.value)}
+                            fullWidth
+                        >
+                            <MenuItem value="et536tytet63t">et536tytet63t</MenuItem>
+                            {/* Add more options if needed */}
+                        </TextField>
+                    </Box>
+                </Box>
+                <br />
+                <div className='center'>
+                    <Button variant="contained" color="success" onClick={handleSubmit}>Create</Button>
+                </div>
+            </DialogContent>
+        </Dialog>
 
             {/* Dialog for adding employee */}
             <Dialog open={openEmployeeDialog} onClose={handleEmployeeDialogClose}>
